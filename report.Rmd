@@ -20,26 +20,29 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 load("./data/tidy_data_acs.Rdata")
 ```
 
-## **Motivation & Related Work**
-The World Health Organization (WHO), defines mental health as “a state of well-being in which the individual realizes his or her own abilities, can cope with the normal stresses of life, can work productively and fruitfully, and is able to make a contribution to his or her community.” This definition demonstrates how mental health is an important aspect of overall wellness. Mental illness, however, is one of the most common medical statuses in the United States. In 2017 alone, 46.6 million Americans live with a mental illness, accounting for approximately 20% of the U.S. population. And, more than 10 million (4.6%) American adults had a serious mental illness which substantially interferes with or limit one or more major life activities. Geographic variation in mental health has drawn attention in the health care community.  In a recent report, most of the best cities for mental health are located in the West or Midwest, and none are located in the Northeast. Mental health and many common mental disorders are shaped to a great extent by the social, economic, and physical environments in which people live. Factors that potentially contribute to the variation are not well understood and need further study. With this project we wanted to better understand what behaviors are positively associated with mental health and the distribution of rates of mental health in the United States. 
+## **Motivation**
 
-The goal of this project was to better understand the relationship between health behaviors and self reported mental health, as well as distribution of mental health across the US, utilizing data from the 500 cities dataset. 
+Mental illnes is one of the most common medical conditions in the United States. In 2017 alone, 46.6 million (20%) Americans lived with some type of mental illness and more than 10 million (4.6%) Americans had a serious mental illness which substantially interfered with, or limited, one or more major life activities. Everyone has the potential to develop a mental illness over the course of their life, regardless of age, gender, ethincity, or socioecomonic status. 
 
-We were inspired to complete this analysis from seeing how the 500 cities datset was utilited in a prior project for the P8105 class, [The Heart Project](https://alc2279.github.io/p8105_final_project/).
+Geographic variation of mental health has drawn attention from the health care community. A recent report found that the majority of cities with high rankings for good mental health are located in the Midwest and West, while none of the best cities for mental health are located in the Northeast. Factors that contribute to variation in mental health status are not well understood and need further study. 
 
-Mental illness is one of the most common medical conditions in the United States. In 2017 alone, 46.6 million Americans lived with a mental illness, approximately 20% of the U.S. population [source](https://www.nimh.nih.gov/health/statistics/mental-illness.shtml#part_154785). More than 10 million (4.6%) American adults had a serious mental illness which substantially interferes with, or limits, one or more major life activities. Geographic variation in mental health has drawn attention in the health care community.  In a report from the Sleep Help, most of the best U.S. cities for mental health are located in the West or Midwest, and none are located in the Northeast [source](https://www.sleephelp.org/cities-best-mental-health-sleep/#the-15-cities-reporting-the-best-mental-health). Mental health and many common mental disorders are shaped to a great extent by the social, economic, and physical environments in which people live. Factors that potentially contribute to the variation are not well understood and need further study.
+Given the high prevalence of mental illness and large disease burden, our group sought to vizualize distributions of mental health across the United States and to explore what behaviors, if any, are signficiantly associated with mental health. 
+
+ 
+## **Related Work**
+
+We were inspired to utilize the data from the 500 Cities Dataset after seeing how the data was utilized in a prior project for the P8105 class, [The Heart Project](https://alc2279.github.io/p8105_final_project/).
 
 
+## **Initial Questions**
 
-## Research questions
-**Initial questions**
-
-When we started this project we were interested in looking at cancer, specifically uterine cancer, as an endpoint. Our plan was to explore the health behaviors associated with uterine cancer, and look at geographic variation in the uterine cancer rates. The 500 Cities dataset includes data on cancer, but after further exploration we discovered that the cancer variable available was for all cancers except for melanoma, and the group felt that the data was too general to do a meaningful analysis. 
+When we first started brainstorming for this project we were interested in looking at cancer, specifically uterine cancer, as an endpoint. Our inital plan was to look at behaviors associated with uterine cancer and to examine the geographic variation in cancer rates. The 500 Cities dataset includes data on cancer, but after further exploration we discovered that there was cancer variable available which included all cancers except for melanoma, and the group felt that the data was too general to do a meaningful analysis. 
 
 We switched our outcome to mental health because we felt it was a timely and interesting topic, and because the data supported the scope of the project. We continuted with our plan to look at the association of health behaviors with mental health as the outcome and to look at the geographic variation. 
 
 
 ## **Data & Methods**
+
 This project utilizes data from the [500 cities dataset](https://www.cdc.gov/500cities/index.htm), publicly available for download [here](https://catalog.data.gov/dataset/500-cities-local-data-for-better-health-fc759). The data are based on the [Behavioral Risk Factor Surveillance System (BRFSS)](https://www.cdc.gov/brfss/) survey, which is a national survey of adults' behavior surrounding their health (risk behavior, use of preventative services, chronic conditions). Data are summarized using small area estimation methods and are not reported on the individual level, but at the census-tract level and include geographic identifiers such as latitude and longitude, city Federal Information Processing Standards (FIPS) and census tract FIPS. 
 
 The 500 cities data source includes data on health outcomes such as asthma, arthritis, cancer, heart disease, and mental health, along with data on unhealthy behaviors such as drinking, smoking, and obesity. 
@@ -99,7 +102,7 @@ best_mh <- summaries_by_city %>%
 best_mh / worst_mh
 ```
 
-#### Maps
+#### **Maps**
 
 We created several maps to visualize the distribution of mental health outcomes across the United States. The nationwide scatter plot map is rendered using `plotly's` integration with mapbox and shows the reported percentage of poor mental health by census tract. This map was originally intended as a census-level choropleth, but because of loading-performance issues, we decided to display it as a scatter plot and supplement with smaller-scale choropleths.
 
@@ -224,7 +227,7 @@ We formally compared the random effects model to the fixed effects model, and fo
 # compare to fixed effects model
 mdl_mh_fixed <- lm(mental_health ~ physical_inactivity + pct_male + pct_ltHS + pct_white, data = tidy_data_acs %>% drop_na())
 
-anova(mdl_mh_random,mdl_mh_fixed)
+comparison <- anova(mdl_mh_random,mdl_mh_fixed)
 ```
 
 From the adjusted hierarchical model, we can look at the distribution of the predicted values for mental health (normal by design of the model) and note that the percent of adults with poor mental health for 14+ days of the past month ranges from xx to xx. 
@@ -273,3 +276,11 @@ best_mh / worst_mh
 ```
 
 ## **Discussion**
+
+Mental health includes emotional, psychological, and social well-being. Our analysis shows that one out of eight people living in big cities was not feeling well in mental health. People from the West, such as California, had better self-reported mental health than people living in the East. No leisure-time physical activity, insufficient sleep, being obese and smoking were strongly associated with poor mental health. Variations of poor mental health across 500 cities were found in the random-effect hierarchical model. Male, low education, and being a minority is associated with a higher likelihood of poor mental health. After adjusting for measured confounders, people from West coast cities were still happier than people living on the East coast. 
+
+Good mental health has been considered as an important factor that allows one to flourish and fully enjoy life. The geographic variation of mental health across the USA is of great interest in many perspectives. First, it provides insights for health policymakers into the allocation of mental health care services. It is obvious that health providers in the East coast area need to provide more mental health counseling for the city residence due to the stressful working pace and life style. Annual check-ups can be a great opportunity to reach out to a large number of city residents. Secondly, at the individual level, we identified some health behavior factors associated with poor mental health, including limited leisure-time physical excercises, the deprivation of sleep, obesity, and smoking. Undoubtedly, physical health and mental health are mutually influenced by one another. The intervention at the individual level should take a whole picture of one's physical and mental health. They are inseparable. Some social factors (such as gender, education, and race)  also have impacts on poor mental health that are hard to intervene on for the manipulability of social factors is limited. Health providers need to pay special attention to patients who are under a high level of stress, such as males, lower levels of education, and minorities.   
+ 
+The strength of our analysis includes the visualization of geographic variation of poor mental health across 500 biggest cities in the USA, covering a substantial of Americans. And, the multilevel analysis allows the testing of heterogeneity of mental health across cities and generates predicted proportion of people with poor mental health at each city after accounting for measured confounders. But, we need to be cautious about the interpretation of ecologic study at the individual level. Our analysis unit is census tract, clustering at the city level. Association found at the neighborhood level might not be transportable to each individual in the study. For example, a minority male with lower education working as a bus driver may have a happier life than a white male working at the Wall Street for the latter is, in general, has a much more intensive lifestyle with a higher risk of being laid-off. Last but not least, our group was discussing the strategy of constructing a composite index to handle the collinearity of health-related factors in the multivariable regression model. For the interest of time, we did not pursue this analysis at an more advanced level. For the future study, it may be worthwhile to build on a health behavior index based on the weights calculated from the logistic regression model via the cross-validation process. 
+
+In conclusion, our "happy cities" project using the 500 Cities and the American  community servey data is a meaningful analysis that provides insight into the mental health at the neighborhood level. Good mental health affects our daily life on how we think, feels, and act.  This is an important but maybe an understudied field. 
